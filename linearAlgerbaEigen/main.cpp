@@ -7,8 +7,8 @@
 //
 
 #include <iostream>
-#include <Eigen/Dense>
-#include <Eigen/Eigenvalues>
+#include "include/eigen3/Eigen/Dense"
+#include "include/eigen3/Eigen/Eigenvalues"
 #include <map>
 #include <set>
 #include <chrono>
