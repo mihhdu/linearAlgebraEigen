@@ -23,7 +23,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		306DD0B91FD0B7F80026CCA9 /* vectorPracticeEigen */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vectorPracticeEigen; sourceTree = BUILT_PRODUCTS_DIR; };
+		306DD0B91FD0B7F80026CCA9 /* linearAlgerbaEigen */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = linearAlgerbaEigen; sourceTree = BUILT_PRODUCTS_DIR; };
 		306DD0BC1FD0B7F80026CCA9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -41,7 +41,7 @@
 		306DD0B01FD0B7F80026CCA9 = {
 			isa = PBXGroup;
 			children = (
-				306DD0BB1FD0B7F80026CCA9 /* vectorPracticeEigen */,
+				306DD0BB1FD0B7F80026CCA9 /* linearAlgerbaEigen */,
 				306DD0BA1FD0B7F80026CCA9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -49,25 +49,25 @@
 		306DD0BA1FD0B7F80026CCA9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				306DD0B91FD0B7F80026CCA9 /* vectorPracticeEigen */,
+				306DD0B91FD0B7F80026CCA9 /* linearAlgerbaEigen */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		306DD0BB1FD0B7F80026CCA9 /* vectorPracticeEigen */ = {
+		306DD0BB1FD0B7F80026CCA9 /* linearAlgerbaEigen */ = {
 			isa = PBXGroup;
 			children = (
 				306DD0BC1FD0B7F80026CCA9 /* main.cpp */,
 			);
-			path = vectorPracticeEigen;
+			path = linearAlgerbaEigen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		306DD0B81FD0B7F80026CCA9 /* vectorPracticeEigen */ = {
+		306DD0B81FD0B7F80026CCA9 /* linearAlgerbaEigen */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 306DD0C01FD0B7F80026CCA9 /* Build configuration list for PBXNativeTarget "vectorPracticeEigen" */;
+			buildConfigurationList = 306DD0C01FD0B7F80026CCA9 /* Build configuration list for PBXNativeTarget "linearAlgerbaEigen" */;
 			buildPhases = (
 				306DD0B51FD0B7F80026CCA9 /* Sources */,
 				306DD0B61FD0B7F80026CCA9 /* Frameworks */,
@@ -77,9 +77,9 @@
 			);
 			dependencies = (
 			);
-			name = vectorPracticeEigen;
+			name = linearAlgerbaEigen;
 			productName = vectorPracticeEigen;
-			productReference = 306DD0B91FD0B7F80026CCA9 /* vectorPracticeEigen */;
+			productReference = 306DD0B91FD0B7F80026CCA9 /* linearAlgerbaEigen */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -97,7 +97,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 306DD0B41FD0B7F80026CCA9 /* Build configuration list for PBXProject "vectorPracticeEigen" */;
+			buildConfigurationList = 306DD0B41FD0B7F80026CCA9 /* Build configuration list for PBXProject "linearAlgerbaEigen" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -109,7 +109,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				306DD0B81FD0B7F80026CCA9 /* vectorPracticeEigen */,
+				306DD0B81FD0B7F80026CCA9 /* linearAlgerbaEigen */,
 			);
 		};
 /* End PBXProject section */
@@ -233,6 +233,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				"HEADER_SEARCH_PATHS[arch=*]" = /usr/local/include/eigen3/;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -241,6 +242,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				"HEADER_SEARCH_PATHS[arch=*]" = /usr/local/include/eigen3/;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -248,7 +250,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		306DD0B41FD0B7F80026CCA9 /* Build configuration list for PBXProject "vectorPracticeEigen" */ = {
+		306DD0B41FD0B7F80026CCA9 /* Build configuration list for PBXProject "linearAlgerbaEigen" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				306DD0BE1FD0B7F80026CCA9 /* Debug */,
@@ -257,7 +259,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		306DD0C01FD0B7F80026CCA9 /* Build configuration list for PBXNativeTarget "vectorPracticeEigen" */ = {
+		306DD0C01FD0B7F80026CCA9 /* Build configuration list for PBXNativeTarget "linearAlgerbaEigen" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				306DD0C11FD0B7F80026CCA9 /* Debug */,
