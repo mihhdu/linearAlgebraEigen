@@ -94,6 +94,8 @@ int main(int argc, const char * argv[])
     eigenVector v4(10);
     v4 = eigenVector::Random(10);
     
+    std::chrono::high_resolution_clock::time_point timePoint1 = std::chrono::high_resolution_clock::now();
+    
     std::cout << "Extracting the roots of a polynomial" << std::endl;
     PolynomialCoeffVectors.set_.insert(v1);
     PolynomialCoeffVectors.set_.insert(v2);
@@ -111,7 +113,7 @@ int main(int argc, const char * argv[])
     }
     std::cout << std::endl;
     
-    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    std::chrono::high_resolution_clock::time_point timePoint2 = std::chrono::high_resolution_clock::now();
     
     std::cout << "Playing around with a set of matrices" << std::endl;
     mySet.set_.insert(A);
@@ -127,6 +129,8 @@ int main(int argc, const char * argv[])
         std::cout << "The inverse of the matrix is:\n" << mySet.it->inverse() << std::endl;
     }
     std::cout << std::endl;
+    
+    std::chrono::high_resolution_clock::time_point timePoint3 = std::chrono::high_resolution_clock::now();
     
     std::cout << "Playing around with a map of <string, std::pair<Eigen::Matrix2d, Eigen::Vector2d>>" << std::endl;
     myMap.map_.insert(std::make_pair("vector1", std::make_pair(A, v1)));
@@ -145,7 +149,17 @@ int main(int argc, const char * argv[])
     }
     std::cout << std::endl;
     
-    std::cout << "Operation took took "
-    << std::chrono::duration_cast<std::chrono::microseconds>(end - start).count()
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    std::cout << "Initialization took "
+    << std::chrono::duration_cast<std::chrono::microseconds>(timePoint1 - start).count()
+    << "us." << std::endl;
+    std::cout << "Polynomial root extraction took "
+    << std::chrono::duration_cast<std::chrono::microseconds>(timePoint2 - timePoint1).count()
+    << "us." << std::endl;
+    std::cout << "Matrices in set took "
+    << std::chrono::duration_cast<std::chrono::microseconds>(timePoint3 - timePoint2).count()
+    << "us." << std::endl;
+    std::cout << "Matrices in map took "
+    << std::chrono::duration_cast<std::chrono::microseconds>(end - timePoint3).count()
     << "us." << std::endl;
 }
