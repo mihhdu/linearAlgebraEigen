@@ -71,7 +71,7 @@ template <typename Derived> void printPolynome(const Eigen::MatrixBase<Derived>&
     
     for (long int i=in_monicPolynomialCoeff.rows()-1; i>0; i--) {
         if (in_monicPolynomialCoeff(i, 0) > 0) std::cout << "+";
-        std::cout << in_monicPolynomialCoeff(i, 0) << "*x^" << i;
+        std::cout << in_monicPolynomialCoeff(i, 0) << "x^" << i;
     }
     if (in_monicPolynomialCoeff(0, 0) > 0) std::cout << "+";
     std::cout << in_monicPolynomialCoeff(0, 0) << std::endl;
@@ -163,7 +163,7 @@ int main(int argc, const char * argv[])
     std::cout << std::endl;
     
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
-    std::cout << "Initialization took "
+    std::cout << "Initialisation took "
     << std::chrono::duration_cast<std::chrono::microseconds>(timePoint1 - start).count()
     << "us." << std::endl;
     std::cout << "Polynomial root extraction took "
