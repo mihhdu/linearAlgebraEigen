@@ -69,7 +69,7 @@ template <typename Derived> void printPolynome(const Eigen::MatrixBase<Derived>&
     for (int i=0; i<in_monicPolynomialCoeff.rows(); i++) {
         std::cout << in_monicPolynomialCoeff(i, 0) << "*x^" << i << "+";
     }
-    std::cout << "x^" << in_monicPolynomialCoeff.rows()-1 << std::endl;
+    std::cout << "x^" << in_monicPolynomialCoeff.rows() << std::endl;
 }
 
 matrixSet mySet;
