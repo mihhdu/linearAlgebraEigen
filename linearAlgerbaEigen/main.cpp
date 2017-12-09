@@ -25,7 +25,7 @@ public:
     std::map<std::string, MyPair>::iterator it;
 };
 
-class polynomialRootSolver {
+class matrixSet {
 public:
     struct matrixCompare {
         bool operator() (const eigenMatrix& a, const eigenMatrix& b) const {
@@ -35,13 +35,11 @@ public:
         }
     };
     
-    template <typename Derived> Eigen::Matrix<std::complex<float>, Dynamic, Dynamic> buildCompanionMatrix (const Eigen::MatrixBase<Derived>& in_monicPolynomialCoeff);
-    
     std::set<eigenMatrix, matrixCompare>::iterator it;
     std::set<eigenMatrix, matrixCompare> set_;
 };
 
-template <typename Derived> Eigen::Matrix<std::complex<float>, Dynamic, Dynamic> polynomialRootSolver::buildCompanionMatrix (const Eigen::MatrixBase<Derived>& in_monicPolynomialCoeff) {
+template <typename Derived> Eigen::Matrix<std::complex<float>, Dynamic, Dynamic> buildCompanionMatrix (const Eigen::MatrixBase<Derived>& in_monicPolynomialCoeff) {
     
     /*
      P(X) = c0+c1*x+c2*x^2+...+cn-1*x^n-1+x^n
@@ -66,9 +64,9 @@ template <typename Derived> Eigen::Matrix<std::complex<float>, Dynamic, Dynamic>
     return companionMatrix;
 }
 
-polynomialRootSolver mySet;
+matrixSet mySet;
 linearRegression myMap;
-polynomialRootSolver PolynomialCoeffVectors;
+matrixSet PolynomialCoeffVectors;
 
 int main(int argc, const char * argv[])
 {
@@ -106,9 +104,9 @@ int main(int argc, const char * argv[])
     std::cout << "Number of equations to solve: " << PolynomialCoeffVectors.set_.size() << std::endl;
     for (PolynomialCoeffVectors.it = PolynomialCoeffVectors.set_.begin(); PolynomialCoeffVectors.it != PolynomialCoeffVectors.set_.end(); PolynomialCoeffVectors.it++) {
         std::cout << "The coefficients of the monic Polynomial:\n" << *PolynomialCoeffVectors.it << std::endl;
-        std::cout << "The associated companion matrix:\n" << PolynomialCoeffVectors.buildCompanionMatrix(*PolynomialCoeffVectors.it) << std::endl;
+        std::cout << "The associated companion matrix:\n" << buildCompanionMatrix(*PolynomialCoeffVectors.it) << std::endl;
         ComplexEigenSolver<Eigen::Matrix<std::complex<float>, Dynamic, Dynamic>> eigensolver;
-        eigensolver.compute(PolynomialCoeffVectors.buildCompanionMatrix(*PolynomialCoeffVectors.it));
+        eigensolver.compute(buildCompanionMatrix(*PolynomialCoeffVectors.it));
         if (eigensolver.info() != Success) abort();
         std::cout << "The roots of the Polynomial are:\n" << eigensolver.eigenvalues() << std::endl;
         std::cout << "Here's a matrix whose columns are eigenvectors of the matrix corresponding to these eigenvalues:\n" << eigensolver.eigenvectors() << std::endl;
