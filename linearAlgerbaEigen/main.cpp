@@ -66,11 +66,15 @@ template <typename Derived> Eigen::Matrix<std::complex<float>, Dynamic, Dynamic>
 
 template <typename Derived> void printPolynome(const Eigen::MatrixBase<Derived>& in_monicPolynomialCoeff) {
     
-    std::cout << in_monicPolynomialCoeff(0, 0);
-    for (int i=1; i<in_monicPolynomialCoeff.rows(); i++) {
-        std::cout << "+" << in_monicPolynomialCoeff(i, 0) << "*x^" << i;
+    std::cout << "The Polynomial in monic form: " << std::endl;
+    std::cout << "x^" << in_monicPolynomialCoeff.rows();
+    
+    for (long int i=in_monicPolynomialCoeff.rows()-1; i>0; i--) {
+        if (in_monicPolynomialCoeff(i, 0) > 0) std::cout << "+";
+        std::cout << in_monicPolynomialCoeff(i, 0) << "*x^" << i;
     }
-    std::cout << "+x^" << in_monicPolynomialCoeff.rows() << std::endl;
+    if (in_monicPolynomialCoeff(0, 0) > 0) std::cout << "+";
+    std::cout << in_monicPolynomialCoeff(0, 0) << std::endl;
 }
 
 matrixSet mySet;
@@ -112,7 +116,6 @@ int main(int argc, const char * argv[])
     PolynomialCoeffVectors.set_.insert(v4);
     std::cout << "Number of equations to solve: " << PolynomialCoeffVectors.set_.size() << std::endl;
     for (PolynomialCoeffVectors.it = PolynomialCoeffVectors.set_.begin(); PolynomialCoeffVectors.it != PolynomialCoeffVectors.set_.end(); PolynomialCoeffVectors.it++) {
-        std::cout << "The Polynomial in monic form:\n";
         printPolynome(*PolynomialCoeffVectors.it);
         std::cout << "The associated companion matrix:\n" << buildCompanionMatrix(*PolynomialCoeffVectors.it) << std::endl;
         ComplexEigenSolver<Eigen::Matrix<std::complex<float>, Dynamic, Dynamic>> eigensolver;
