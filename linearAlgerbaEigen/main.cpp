@@ -19,18 +19,39 @@ typedef Eigen::Matrix<float, Dynamic, Dynamic> eigenMatrix;
 typedef Eigen::Matrix<float, Dynamic, 1> eigenVector;
 typedef std::pair<eigenMatrix, eigenVector> MyPair;
 
-template <typename Derived>
-Eigen::Matrix<std::complex<float>, Dynamic, Dynamic> buildCompanionMatrix (const Eigen::MatrixBase<Derived>& in_monicPolynomialCoeff) {
+class linearRegression {
+public:
+    std::map<std::string, MyPair> map_;
+    std::map<std::string, MyPair>::iterator it;
+};
+
+class polynomialRootSolver {
+public:
+    struct matrixCompare {
+        bool operator() (const eigenMatrix& a, const eigenMatrix& b) const {
+            if (a.rows() == b.rows() && a.cols() == b.cols())
+                return not(a.isApprox(b));
+            else return true;
+        }
+    };
     
-     /*
+    template <typename Derived> Eigen::Matrix<std::complex<float>, Dynamic, Dynamic> buildCompanionMatrix (const Eigen::MatrixBase<Derived>& in_monicPolynomialCoeff);
+    
+    std::set<eigenMatrix, matrixCompare>::iterator it;
+    std::set<eigenMatrix, matrixCompare> set_;
+};
+
+template <typename Derived> Eigen::Matrix<std::complex<float>, Dynamic, Dynamic> polynomialRootSolver::buildCompanionMatrix (const Eigen::MatrixBase<Derived>& in_monicPolynomialCoeff) {
+    
+    /*
      P(X) = c0+c1*x+c2*x^2+...+cn-1*x^n-1+x^n
-    
+     
      then the frobenius companion matrix is:
      
-     [0     ...   -c0  ]
-     [0 1   ...   -c1  ]
+          [0     ...   -c0  ]
+          [0 1   ...   -c1  ]
      C =  [0 0 1 ...   -c2  ]
-     [0 0 0 ... 1 -cn-1]
+          [0 0 0 ... 1 -cn-1]
      */
     
     //create companion matrix, square matrix with the same rows and columns as the polynomial has coefficients
@@ -45,28 +66,9 @@ Eigen::Matrix<std::complex<float>, Dynamic, Dynamic> buildCompanionMatrix (const
     return companionMatrix;
 }
 
-class matrixMap {
-public:
-    std::map<std::string, MyPair> map_;
-    std::map<std::string, MyPair>::iterator it;
-};
-
-class matrixSet {
-public:
-    struct matrixCompare {
-        bool operator() (const eigenMatrix& a, const eigenMatrix& b) const {
-            if (a.rows() == b.rows() && a.cols() == b.cols())
-                return not(a.isApprox(b));
-            else return true;
-        }
-    };
-    std::set<eigenMatrix, matrixCompare>::iterator it;
-    std::set<eigenMatrix, matrixCompare> set_;
-};
-
-matrixSet mySet;
-matrixMap myMap;
-matrixSet PolynomialCoeffVectors;
+polynomialRootSolver mySet;
+linearRegression myMap;
+polynomialRootSolver PolynomialCoeffVectors;
 
 int main(int argc, const char * argv[])
 {
@@ -104,9 +106,9 @@ int main(int argc, const char * argv[])
     std::cout << "Number of equations to solve: " << PolynomialCoeffVectors.set_.size() << std::endl;
     for (PolynomialCoeffVectors.it = PolynomialCoeffVectors.set_.begin(); PolynomialCoeffVectors.it != PolynomialCoeffVectors.set_.end(); PolynomialCoeffVectors.it++) {
         std::cout << "The coefficients of the monic Polynomial:\n" << *PolynomialCoeffVectors.it << std::endl;
-        std::cout << "The associated companion matrix:\n" << buildCompanionMatrix(*PolynomialCoeffVectors.it) << std::endl;
+        std::cout << "The associated companion matrix:\n" << PolynomialCoeffVectors.buildCompanionMatrix(*PolynomialCoeffVectors.it) << std::endl;
         ComplexEigenSolver<Eigen::Matrix<std::complex<float>, Dynamic, Dynamic>> eigensolver;
-        eigensolver.compute(buildCompanionMatrix(*PolynomialCoeffVectors.it));
+        eigensolver.compute(PolynomialCoeffVectors.buildCompanionMatrix(*PolynomialCoeffVectors.it));
         if (eigensolver.info() != Success) abort();
         std::cout << "The roots of the Polynomial are:\n" << eigensolver.eigenvalues() << std::endl;
         std::cout << "Here's a matrix whose columns are eigenvectors of the matrix corresponding to these eigenvalues:\n" << eigensolver.eigenvectors() << std::endl;
@@ -132,7 +134,7 @@ int main(int argc, const char * argv[])
     
     std::chrono::high_resolution_clock::time_point timePoint3 = std::chrono::high_resolution_clock::now();
     
-    std::cout << "Playing around with a map of <string, std::pair<Eigen::Matrix2d, Eigen::Vector2d>>" << std::endl;
+    std::cout << "Playing around with a map of <string, std::pair<Eigen::MatrixXf, Eigen::VectorXf>>" << std::endl;
     myMap.map_.insert(std::make_pair("vector1", std::make_pair(A, v1)));
     myMap.map_.insert(std::make_pair("vector2", std::make_pair(B, v2)));
     std::cout << "Map size is: "  << myMap.map_.size() << std::endl;
