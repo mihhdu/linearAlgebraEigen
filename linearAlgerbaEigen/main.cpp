@@ -6,124 +6,8 @@
 //  Copyright © 2017 Mihai Dunareanu. All rights reserved.
 //
 
-#include <iostream>
-#include "include/eigen3/Eigen/Dense"
-#include "include/eigen3/Eigen/Eigenvalues"
-#include <map>
-#include <set>
+#include "matrixFunctions.hpp"
 #include <chrono>
-
-typedef Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic> eigenMatrix;
-typedef Eigen::Matrix<float, Eigen::Dynamic, 1> eigenVector;
-typedef std::pair<eigenMatrix, eigenVector> MyPair;
-
-class linearRegression {
-public:
-    std::map<std::string, MyPair>::iterator begin();
-    std::map<std::string, MyPair>::iterator end();
-    
-    std::map<std::string, MyPair> map_;
-    std::map<std::string, MyPair>::iterator it;
-    
-};
-
-std::map<std::string, MyPair>::iterator linearRegression::begin() {
-    return this->map_.begin();
-}
-
-std::map<std::string, MyPair>::iterator linearRegression::end() {
-    return this->map_.end();
-}
-
-class polynomialHelper {
-public:
-    polynomialHelper() {};
-    struct matrixCompare {
-        bool operator() (const eigenMatrix& a, const eigenMatrix& b) const {
-            if (a.rows() == b.rows() && a.cols() == b.cols())
-                return not(a.isApprox(b));
-            else return true;
-        }
-    };
-    template <typename Derived> Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic> buildCompanionMatrix (const Eigen::MatrixBase<Derived>& in_monicPolynomialCoeff);
-    template <typename Derived> void printPolynome(const Eigen::MatrixBase<Derived>& in_monicPolynomialCoeff);
-    
-    template <typename Derived> void computeEigenValues(const Eigen::MatrixBase<Derived>& in_Matrix);
-    Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic> getEigenVectors();
-    Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic> getEigenValues();
-    std::set<eigenMatrix, matrixCompare>::iterator begin();
-    std::set<eigenMatrix, matrixCompare>::iterator end();
-    
-    Eigen::ComplexEigenSolver<Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic>> eigensolver;
-    std::set<eigenMatrix, matrixCompare>::iterator it;
-    std::set<eigenMatrix, matrixCompare> set_;
-};
-
-template <typename Derived> Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic> polynomialHelper::buildCompanionMatrix (const Eigen::MatrixBase<Derived>& in_monicPolynomialCoeff) {
-    
-    /*
-     P(X) = c0+c1*x+c2*x^2+...+cn-1*x^n-1+x^n
-     
-     then the frobenius companion matrix is:
-     
-          [0     ...   -c0  ]
-          [0 1   ...   -c1  ]
-     C =  [0 0 1 ...   -c2  ]
-          [0 0 0 ... 1 -cn-1]
-     */
-    
-    //create companion matrix, square matrix with the same rows and columns as the polynomial has coefficients
-    Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic> companionMatrix(in_monicPolynomialCoeff.rows(), in_monicPolynomialCoeff.rows());
-    //populate In in the bottom left corner, excluding first row and last column
-    companionMatrix.bottomLeftCorner(in_monicPolynomialCoeff.rows()-1, in_monicPolynomialCoeff.rows()-1)  = Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic>::Identity(in_monicPolynomialCoeff.rows()-1, in_monicPolynomialCoeff.rows()-1);
-    //fill first row with zeroes
-    companionMatrix.topLeftCorner(1, in_monicPolynomialCoeff.rows()) = Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic>::Zero(1, in_monicPolynomialCoeff.rows());
-    //fill last column with coefficient column multipled by -1
-    companionMatrix.rightCols(1) = in_monicPolynomialCoeff*-1;
-    
-    return companionMatrix;
-}
-
-template <typename Derived> void polynomialHelper::printPolynome(const Eigen::MatrixBase<Derived>& in_monicPolynomialCoeff) {
-    
-    std::cout << "The Polynomial in monic form: " << std::endl;
-    std::cout << "x^" << in_monicPolynomialCoeff.rows();
-    
-    for (long int i=in_monicPolynomialCoeff.rows()-1; i>0; i--) {
-        if (in_monicPolynomialCoeff(i, 0) > 0) std::cout << "+";
-        std::cout << in_monicPolynomialCoeff(i, 0) << "x^" << i;
-    }
-    if (in_monicPolynomialCoeff(0, 0) > 0) std::cout << "+";
-    std::cout << in_monicPolynomialCoeff(0, 0) << std::endl;
-}
-
-template <typename Derived> void polynomialHelper::computeEigenValues(const Eigen::MatrixBase<Derived>& in_Matrix) {
-    this->eigensolver.compute(in_Matrix);
-    if (this->eigensolver.info() != Eigen::Success)
-        throw eigensolver.info();
-}
-
-Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic> polynomialHelper::getEigenVectors() {
-    if (this->eigensolver.info() != Eigen::Success)
-        throw eigensolver.info();
-    else
-        return this->eigensolver.eigenvectors();
-}
-
-Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic> polynomialHelper::getEigenValues() {
-    if (this->eigensolver.info() != Eigen::Success)
-        throw eigensolver.info();
-    else
-    return this->eigensolver.eigenvalues();
-}
-
-std::set<eigenMatrix, polynomialHelper::matrixCompare>::iterator polynomialHelper::begin() {
-    return this->set_.begin();
-}
-
-std::set<eigenMatrix, polynomialHelper::matrixCompare>::iterator polynomialHelper::end() {
-    return this->set_.end();
-}
 
 polynomialHelper mySet;
 linearRegression myMap;
@@ -152,8 +36,8 @@ int main(int argc, const char * argv[])
     eigenVector v3(7);
     v3 << 1, 4, -5, 2, 2.7, 15, 28.1;
     
-    eigenVector v4(100);
-    v4 = eigenVector::Random(100);
+    eigenVector v4(10);
+    v4 = eigenVector::Random(10);
     
     std::chrono::high_resolution_clock::time_point timePoint1 = std::chrono::high_resolution_clock::now();
     
