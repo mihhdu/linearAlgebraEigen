@@ -28,6 +28,7 @@ public:
     ~linearRegression();
     std::map<std::string, MyPair>::iterator begin();
     std::map<std::string, MyPair>::iterator end();
+    long unsigned int getSize();
     
     std::map<std::string, MyPair> map_;
     std::map<std::string, MyPair>::iterator it;
@@ -44,6 +45,7 @@ public:
     template <typename Derived> void computeEigenValues(const Eigen::MatrixBase<Derived>& in_Matrix);
     Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic> getEigenVectors();
     Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic> getEigenValues();
+    long unsigned int getSize();
     std::set<eigenMatrix, matrixCompare>::iterator begin();
     std::set<eigenMatrix, matrixCompare>::iterator end();
     
@@ -61,7 +63,7 @@ template <typename Derived> Eigen::Matrix<std::complex<float>, Eigen::Dynamic, E
      
      [0     ...   -c0  ]
      [0 1   ...   -c1  ]
-     C =  [0 0 1 ...   -c2  ]
+C =  [0 0 1 ...   -c2  ]
      [0 0 0 ... 1 -cn-1]
      */
     

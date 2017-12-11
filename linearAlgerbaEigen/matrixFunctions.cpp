@@ -30,6 +30,10 @@ std::map<std::string, MyPair>::iterator linearRegression::end() {
     return this->map_.end();
 }
 
+long unsigned int linearRegression::getSize() {
+    return this->map_.size();
+}
+
 polynomialHelper::polynomialHelper () {
     std::cout << "Calling Constructor" << std::endl;
 }
@@ -58,4 +62,8 @@ std::set<eigenMatrix, matrixCompare>::iterator polynomialHelper::begin() {
 
 std::set<eigenMatrix, matrixCompare>::iterator polynomialHelper::end() {
     return this->set_.end();
+}
+
+long unsigned int polynomialHelper::getSize() {
+    return this->set_.size();
 }

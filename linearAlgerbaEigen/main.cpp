@@ -46,7 +46,7 @@ int main(int argc, const char * argv[])
     PolynomialCoeffVectors.set_.insert(v2);
     PolynomialCoeffVectors.set_.insert(v3);
     PolynomialCoeffVectors.set_.insert(v4);
-    std::cout << "Number of equations to solve: " << PolynomialCoeffVectors.set_.size() << std::endl;
+    std::cout << "Number of equations to solve: " << PolynomialCoeffVectors.getSize() << std::endl;
     for (PolynomialCoeffVectors.it = PolynomialCoeffVectors.begin(); PolynomialCoeffVectors.it != PolynomialCoeffVectors.end(); PolynomialCoeffVectors.it++) {
         PolynomialCoeffVectors.printPolynome(*PolynomialCoeffVectors.it);
         std::cout << "The associated companion matrix:\n" << PolynomialCoeffVectors.buildCompanionMatrix(*PolynomialCoeffVectors.it) << std::endl;
@@ -61,7 +61,7 @@ int main(int argc, const char * argv[])
     std::cout << "Playing around with a set of matrices" << std::endl;
     mySet.set_.insert(A);
     mySet.set_.insert(B);
-    std::cout << "Set size is: " << mySet.set_.size() << std::endl;
+    std::cout << "Set size is: " << mySet.getSize() << std::endl;
     for (mySet.it = mySet.begin(); mySet.it != mySet.end(); mySet.it++) {
         std::cout << "Set matrix: \n" << *mySet.it << std::endl;
         mySet.computeEigenValues(*mySet.it);
@@ -77,7 +77,7 @@ int main(int argc, const char * argv[])
     std::cout << "Playing around with a map of <string, std::pair<Eigen::MatrixXf, Eigen::VectorXf>>" << std::endl;
     myMap.map_.insert(std::make_pair("vector1", std::make_pair(A, v1)));
     myMap.map_.insert(std::make_pair("vector2", std::make_pair(B, v2)));
-    std::cout << "Map size is: "  << myMap.map_.size() << std::endl;
+    std::cout << "Map size is: "  << myMap.getSize() << std::endl;
     for ( myMap.it = myMap.begin(); myMap.it != myMap.end(); ++myMap.it) {
         std::cout << "Map key: "<< myMap.it->first << std::endl;
         std::cout << "First element in pair, the matrix: " << std::endl << myMap.it->second.first << std::endl;
