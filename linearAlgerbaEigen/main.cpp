@@ -13,10 +13,8 @@
 #include <set>
 #include <chrono>
 
-using namespace Eigen;
-
-typedef Eigen::Matrix<float, Dynamic, Dynamic> eigenMatrix;
-typedef Eigen::Matrix<float, Dynamic, 1> eigenVector;
+typedef Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic> eigenMatrix;
+typedef Eigen::Matrix<float, Eigen::Dynamic, 1> eigenVector;
 typedef std::pair<eigenMatrix, eigenVector> MyPair;
 
 class linearRegression {
@@ -47,21 +45,21 @@ public:
             else return true;
         }
     };
-    template <typename Derived> Eigen::Matrix<std::complex<float>, Dynamic, Dynamic> buildCompanionMatrix (const Eigen::MatrixBase<Derived>& in_monicPolynomialCoeff);
+    template <typename Derived> Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic> buildCompanionMatrix (const Eigen::MatrixBase<Derived>& in_monicPolynomialCoeff);
     template <typename Derived> void printPolynome(const Eigen::MatrixBase<Derived>& in_monicPolynomialCoeff);
     
     template <typename Derived> void computeEigenValues(const Eigen::MatrixBase<Derived>& in_Matrix);
-    Eigen::Matrix<std::complex<float>, Dynamic, Dynamic> getEigenVectors();
-    Eigen::Matrix<std::complex<float>, Dynamic, Dynamic> getEigenValues();
+    Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic> getEigenVectors();
+    Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic> getEigenValues();
     std::set<eigenMatrix, matrixCompare>::iterator begin();
     std::set<eigenMatrix, matrixCompare>::iterator end();
     
-    ComplexEigenSolver<Eigen::Matrix<std::complex<float>, Dynamic, Dynamic>> eigensolver;
+    Eigen::ComplexEigenSolver<Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic>> eigensolver;
     std::set<eigenMatrix, matrixCompare>::iterator it;
     std::set<eigenMatrix, matrixCompare> set_;
 };
 
-template <typename Derived> Eigen::Matrix<std::complex<float>, Dynamic, Dynamic> polynomialHelper::buildCompanionMatrix (const Eigen::MatrixBase<Derived>& in_monicPolynomialCoeff) {
+template <typename Derived> Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic> polynomialHelper::buildCompanionMatrix (const Eigen::MatrixBase<Derived>& in_monicPolynomialCoeff) {
     
     /*
      P(X) = c0+c1*x+c2*x^2+...+cn-1*x^n-1+x^n
@@ -75,11 +73,11 @@ template <typename Derived> Eigen::Matrix<std::complex<float>, Dynamic, Dynamic>
      */
     
     //create companion matrix, square matrix with the same rows and columns as the polynomial has coefficients
-    Eigen::Matrix<std::complex<float>, Dynamic, Dynamic> companionMatrix(in_monicPolynomialCoeff.rows(), in_monicPolynomialCoeff.rows());
+    Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic> companionMatrix(in_monicPolynomialCoeff.rows(), in_monicPolynomialCoeff.rows());
     //populate In in the bottom left corner, excluding first row and last column
-    companionMatrix.bottomLeftCorner(in_monicPolynomialCoeff.rows()-1, in_monicPolynomialCoeff.rows()-1)  = Eigen::Matrix<std::complex<float>, Dynamic, Dynamic>::Identity(in_monicPolynomialCoeff.rows()-1, in_monicPolynomialCoeff.rows()-1);
+    companionMatrix.bottomLeftCorner(in_monicPolynomialCoeff.rows()-1, in_monicPolynomialCoeff.rows()-1)  = Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic>::Identity(in_monicPolynomialCoeff.rows()-1, in_monicPolynomialCoeff.rows()-1);
     //fill first row with zeroes
-    companionMatrix.topLeftCorner(1, in_monicPolynomialCoeff.rows()) = Eigen::Matrix<std::complex<float>, Dynamic, Dynamic>::Zero(1, in_monicPolynomialCoeff.rows());
+    companionMatrix.topLeftCorner(1, in_monicPolynomialCoeff.rows()) = Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic>::Zero(1, in_monicPolynomialCoeff.rows());
     //fill last column with coefficient column multipled by -1
     companionMatrix.rightCols(1) = in_monicPolynomialCoeff*-1;
     
@@ -101,19 +99,19 @@ template <typename Derived> void polynomialHelper::printPolynome(const Eigen::Ma
 
 template <typename Derived> void polynomialHelper::computeEigenValues(const Eigen::MatrixBase<Derived>& in_Matrix) {
     this->eigensolver.compute(in_Matrix);
-    if (this->eigensolver.info() != Success)
+    if (this->eigensolver.info() != Eigen::Success)
         throw eigensolver.info();
 }
 
-Eigen::Matrix<std::complex<float>, Dynamic, Dynamic> polynomialHelper::getEigenVectors() {
-    if (this->eigensolver.info() != Success)
+Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic> polynomialHelper::getEigenVectors() {
+    if (this->eigensolver.info() != Eigen::Success)
         throw eigensolver.info();
     else
         return this->eigensolver.eigenvectors();
 }
 
-Eigen::Matrix<std::complex<float>, Dynamic, Dynamic> polynomialHelper::getEigenValues() {
-    if (this->eigensolver.info() != Success)
+Eigen::Matrix<std::complex<float>, Eigen::Dynamic, Eigen::Dynamic> polynomialHelper::getEigenValues() {
+    if (this->eigensolver.info() != Eigen::Success)
         throw eigensolver.info();
     else
     return this->eigensolver.eigenvalues();
@@ -142,7 +140,7 @@ int main(int argc, const char * argv[])
     A(1,1) = A(1,0) + A(0,1);
     
     eigenMatrix B(2,2);
-    //B << 1, 2, 3, 4;
+    B << 1, 2, 3, 4;
     
     eigenVector v1(2);
     v1(0) = 3;

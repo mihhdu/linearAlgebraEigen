@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		306DD0BD1FD0B7F80026CCA9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306DD0BC1FD0B7F80026CCA9 /* main.cpp */; };
+		308365D31FDE292100117828 /* matrixFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 308365D11FDE292100117828 /* matrixFunctions.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -502,6 +503,8 @@
 		303E1BA01FD9E8020002D665 /* PaStiXSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaStiXSupport.h; sourceTree = "<group>"; };
 		306DD0B91FD0B7F80026CCA9 /* linearAlgerbaEigen */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = linearAlgerbaEigen; sourceTree = BUILT_PRODUCTS_DIR; };
 		306DD0BC1FD0B7F80026CCA9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		308365D11FDE292100117828 /* matrixFunctions.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = matrixFunctions.cpp; sourceTree = "<group>"; };
+		308365D21FDE292100117828 /* matrixFunctions.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = matrixFunctions.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1588,6 +1591,8 @@
 			children = (
 				303E197C1FD9E7A00002D665 /* include */,
 				306DD0BC1FD0B7F80026CCA9 /* main.cpp */,
+				308365D11FDE292100117828 /* matrixFunctions.cpp */,
+				308365D21FDE292100117828 /* matrixFunctions.hpp */,
 			);
 			path = linearAlgerbaEigen;
 			sourceTree = "<group>";
@@ -1649,6 +1654,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				308365D31FDE292100117828 /* matrixFunctions.cpp in Sources */,
 				306DD0BD1FD0B7F80026CCA9 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
